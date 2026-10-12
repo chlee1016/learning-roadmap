@@ -23,31 +23,116 @@ function markdown(source) {
   }
   if (list) out += '</ul>'; if (code) out += '</code></pre>'; return out;
 }
+const colors = ['#8b9bff','#47d5c0','#edbc73','#dd97f1','#73b5ff','#e997ae','#a9cb7d'];
+let camera = {x:0,y:0,scale:1}, mapBounds, renderedCategory, needsFit = true;
+let pointers = new Map(), gesture, dragged = false;
+const viewport = $('viewport');
+function paintCamera(animate = false) {
+  $('roadmap').classList.toggle('camera-animate',animate);
+  $('roadmap').style.transform = `translate(${camera.x}px,${camera.y}px) scale(${camera.scale})`;
+  $('zoom-label').textContent = `${Math.round(camera.scale*100)}%`;
+}
+function fitMap() {
+  if (!mapBounds) return;
+  const w = viewport.clientWidth, h = viewport.clientHeight;
+  camera.scale = Math.min(1, (w-48)/mapBounds.width, (h-64)/mapBounds.height);
+  camera.x = w/2; camera.y = h/2; paintCamera(true);
+}
+function zoom(factor, x = viewport.clientWidth/2, y = viewport.clientHeight/2) {
+  const old = camera.scale, next = Math.max(.18,Math.min(2.5,old*factor));
+  camera.x = x-(x-camera.x)*next/old; camera.y = y-(y-camera.y)*next/old;
+  camera.scale = next; paintCamera();
+}
+function chooseCategory(id) { category = id; needsFit = true; render(); }
+function makeBox(title, subtitle, x, y, color, action, type = '') {
+  const button = document.createElement('button'); button.className = 'map-node ' + type;
+  button.style.left = `${x}px`; button.style.top = `${y}px`; button.style.setProperty('--accent',color);
+  const label = document.createElement('strong'); label.textContent = title;
+  const small = document.createElement('small'); small.textContent = subtitle;
+  button.append(label,small); button.onclick = e => { if (dragged) { e.preventDefault(); return; } action(); };
+  return button;
+}
 function render() {
   const query = $('search').value.trim().toLowerCase();
+  const searching = query.length > 0;
   const visible = data.nodes.filter(n => (category === 'all' || n.category === category) && (n.title + ' ' + data.categories.find(c => c.id === n.category).title).toLowerCase().includes(query));
-  $('roadmap').replaceChildren();
+  const container = $('roadmap'); container.replaceChildren();
   $('map-title').textContent = category === 'all' ? '전체 로드맵' : data.categories.find(c => c.id === category).title;
   $('count').textContent = `${visible.length}개 주제`;
   $('message').textContent = visible.length ? '' : '검색 결과가 없습니다.';
-  for (const c of data.categories) {
-    const nodes = visible.filter(n => n.category === c.id); if (!nodes.length) continue;
-    const section = document.createElement('section'); section.className = 'lane';
-    const title = document.createElement('h3'); title.textContent = c.title; section.append(title);
-    const grid = document.createElement('div'); grid.className = 'nodes';
-    for (const n of nodes) {
-      const button = document.createElement('button'); button.className = 'node' + (completed.has(n.id) ? ' done' : '');
-      const name = document.createElement('strong'); name.textContent = n.title;
-      const state = document.createElement('small'); state.textContent = completed.has(n.id) ? '✓ 학습 완료' : n.status === 'draft' ? '작성 예정 · 학습 노트 ↗' : '학습 노트 ↗';
-      button.append(name,state); button.onclick = () => { location.hash = encodeURIComponent(n.id); openNode(n); }; grid.append(button);
-    }
-    section.append(grid); $('roadmap').append(section);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','connections'); svg.setAttribute('aria-hidden','true');
+  container.append(svg);
+  const points = [];
+  const overview = category === 'all' && !searching;
+  if (overview) {
+    data.categories.forEach((c,i) => {
+      const angle = -Math.PI/2 + i*Math.PI*2/data.categories.length;
+      const x = Math.cos(angle)*440, y = Math.sin(angle)*290;
+      const count = data.nodes.filter(n => n.category === c.id).length;
+      points.push({x,y,color:colors[i],box:makeBox(c.title,`${String(i+1).padStart(2,'0')} / ${count}개 주제 · 펼쳐보기`,x,y,colors[i],()=>chooseCategory(c.id),'category-node')});
+    });
+  } else {
+    visible.forEach((n,i) => {
+      const side = i%2 ? 1 : -1, rows = Math.ceil(visible.length/2);
+      const x = side*360, y = (Math.floor(i/2)-(rows-1)/2)*112;
+      const color = colors[data.categories.findIndex(c => c.id === n.category)];
+      points.push({x,y,color,box:makeBox(n.title,completed.has(n.id) ? '✓ 학습 완료' : n.status === 'draft' ? '작성 예정 · 노트 열기 ↗' : '노트 열기 ↗',x,y,color,()=>{location.hash=encodeURIComponent(n.id);openNode(n);},completed.has(n.id)?'done':'')});
+    });
   }
+  for(const point of points) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    const bend = point.x*.5;
+    path.setAttribute('d',`M 0 0 C ${bend} 0 ${bend} ${point.y} ${point.x} ${point.y}`);
+    path.style.setProperty('--accent',point.color); svg.append(path);
+    container.append(point.box);
+  }
+  const centerTitle = overview ? 'System Design' : searching ? '검색 결과' : $('map-title').textContent;
+  container.append(makeBox(centerTitle,overview ? '7개의 경로, 42개의 주제' : '← 전체 지도 돌아가기',0,0,'#b9b5ff',()=>{ $('search').value=''; chooseCategory('all'); },'center-node'));
+  mapBounds = {width:Math.max(640,...points.map(p=>Math.abs(p.x)*2+260)),height:Math.max(300,...points.map(p=>Math.abs(p.y)*2+110))};
   const done = data.nodes.filter(n => completed.has(n.id)).length;
   $('progress-label').textContent = `${done} / ${data.nodes.length} 완료 · ${Math.round(done/data.nodes.length*100)}%`;
   $('progress').max = data.nodes.length; $('progress').value = done;
   for(const b of $('categories').children) { b.classList.toggle('active',b.dataset.category === category); b.setAttribute('aria-pressed',String(b.dataset.category === category)); }
+  if (needsFit || renderedCategory !== category) { fitMap(); needsFit = false; renderedCategory = category; }
 }
+viewport.addEventListener('wheel',e=>{e.preventDefault(); const rect=viewport.getBoundingClientRect(); zoom(Math.exp(-e.deltaY*.0015),e.clientX-rect.left,e.clientY-rect.top);},{passive:false});
+viewport.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse' && e.button!==0) return;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  // Keep a simple click on a node intact; capture blank-canvas drags.
+  if(!e.target.closest('button')) viewport.setPointerCapture(e.pointerId);
+  dragged=false; gesture={camera:{...camera},points:[...pointers.values()]};
+});
+viewport.addEventListener('pointermove',e=>{
+  if(!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  const now=[...pointers.values()], start=gesture.points;
+  if(now.length===2 && start.length===2){
+    const distance=p=>Math.hypot(p[1].x-p[0].x,p[1].y-p[0].y);
+    const mid=p=>({x:(p[0].x+p[1].x)/2,y:(p[0].y+p[1].y)/2});
+    const rect=viewport.getBoundingClientRect(), before=mid(start), after=mid(now);
+    camera.scale=Math.max(.18,Math.min(2.5,gesture.camera.scale*distance(now)/Math.max(1,distance(start))));
+    const ratio=camera.scale/gesture.camera.scale;
+    camera.x=after.x-rect.left-(before.x-rect.left-gesture.camera.x)*ratio;
+    camera.y=after.y-rect.top-(before.y-rect.top-gesture.camera.y)*ratio; dragged=true;paintCamera();
+  } else if(now.length===1 && start.length===1){
+    const dx=now[0].x-start[0].x,dy=now[0].y-start[0].y;
+    if(Math.hypot(dx,dy)>5){dragged=true;viewport.setPointerCapture(e.pointerId);camera.x=gesture.camera.x+dx;camera.y=gesture.camera.y+dy;paintCamera();}
+  }
+});
+const endPointer=e=>{pointers.delete(e.pointerId);gesture={camera:{...camera},points:[...pointers.values()]};};
+viewport.addEventListener('pointerup',endPointer);viewport.addEventListener('pointercancel',endPointer);
+viewport.addEventListener('lostpointercapture',e=>pointers.delete(e.pointerId));
+$('zoom-in').onclick=()=>zoom(1.2);$('zoom-out').onclick=()=>zoom(1/1.2);$('fit').onclick=fitMap;
+$('overview').onclick=()=>{$('search').value='';chooseCategory('all');};
+viewport.addEventListener('keydown',e=>{
+  if(e.target!==viewport)return;
+  if(['+','=','-','0','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))e.preventDefault();
+  if(e.key==='+'||e.key==='=')zoom(1.2);else if(e.key==='-')zoom(1/1.2);else if(e.key==='0')fitMap();
+  else if(e.key.startsWith('Arrow')){camera.x+=e.key==='ArrowLeft'?40:e.key==='ArrowRight'?-40:0;camera.y+=e.key==='ArrowUp'?40:e.key==='ArrowDown'?-40:0;paintCamera();}
+});
+new ResizeObserver(()=>{if(data)fitMap();}).observe(viewport);
 async function openNode(node) {
   selected = node; const current = ++requestId;
   $('reader-category').textContent = data.categories.find(c => c.id === node.category).title;
@@ -74,14 +159,14 @@ $('complete').onclick = () => {
   try { localStorage.setItem(storageKey,JSON.stringify([...completed])); } catch { $('message').textContent = '현재 브라우저에서는 학습 상태를 저장할 수 없습니다.'; }
   $('complete').textContent = completed.has(selected.id) ? '완료 표시 해제' : '학습 완료 표시'; render();
 };
-$('search').addEventListener('input',render);
+$('search').addEventListener('input',()=>{if(data){needsFit=true;render();}});
 fetch('roadmaps/system-design.json').then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(result => {
   data = result;
   for (const c of [{id:'all',title:'전체 로드맵'}, ...data.categories]) {
     const button = document.createElement('button'); button.dataset.category = c.id;
     const title = document.createElement('span'); title.textContent = c.title;
     const count = document.createElement('span'); count.textContent = c.id === 'all' ? data.nodes.length : data.nodes.filter(n => n.category === c.id).length;
-    button.append(title,count); button.onclick = () => { category = c.id; render(); }; $('categories').append(button);
+    button.append(title,count); button.onclick = () => chooseCategory(c.id); $('categories').append(button);
   }
   render();
   const fromHash = () => { let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; } const n = data.nodes.find(n => n.id === id); if (n && (!selected || selected.id !== n.id || !$('reader').open)) openNode(n); };
