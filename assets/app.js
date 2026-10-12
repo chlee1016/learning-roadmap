@@ -155,7 +155,7 @@ async function openNode(node) {
   $('article').textContent = '학습 노트를 불러오는 중…';
   if (!$('reader').open) $('reader').showModal();
   try {
-    const response = await fetch(node.content); if (!response.ok) throw new Error();
+    const response = await fetch(node.content, {cache:'no-cache'}); if (!response.ok) throw new Error();
     const text = await response.text(); if (current !== requestId) return;
     $('article').innerHTML = markdown(text);
     const related = data.edges.filter(e => e.to === node.id).map(e => data.nodes.find(n => n.id === e.from)).filter(Boolean);
@@ -174,7 +174,7 @@ $('complete').onclick = () => {
   $('complete').textContent = completed.has(selected.id) ? '완료 표시 해제' : '학습 완료 표시'; render();
 };
 $('search').addEventListener('input',()=>{if(data){needsFit=true;render();}});
-fetch('roadmaps/system-design.json').then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(result => {
+fetch('roadmaps/system-design.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(result => {
   data = result;
   for (const c of [{id:'all',title:'전체 로드맵'}, ...data.categories]) {
     const button = document.createElement('button'); button.dataset.category = c.id;
