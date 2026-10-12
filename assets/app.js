@@ -7,7 +7,7 @@ try { const stored = JSON.parse(localStorage.getItem(storageKey) || '[]'); compl
 const escapeHtml = text => text.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // Small, safe Markdown subset: headings, lists, tables, links, emphasis, quotes and fenced code.
 // Raw HTML stays escaped; authors can use Markdown for their learning notes.
-function markdown(source) {
+function markdown(source, sourcePath = 'index.md') {
   let code = false, list = false, out = '';
   const inline = text => escapeHtml(text).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
   const lines = source.replace(/<!--[\s\S]*?-->/g, '').split('\n');
@@ -16,6 +16,17 @@ function markdown(source) {
     const line = lines[i];
     if (line.startsWith('```')) { if(list){out+='</ul>';list=false;} out += code ? '</code></pre>' : '<pre><code>'; code = !code; continue; }
     if (code) { out += escapeHtml(line) + '\n'; continue; }
+    const image = /^!\[([^\]]*)\]\(([^\s)]+)\)$/.exec(line.trim());
+    if (image) {
+      if (list) { out += '</ul>'; list = false; }
+      try {
+        const url = new URL(image[2], new URL(sourcePath, document.baseURI));
+        if (!['http:', 'https:'].includes(url.protocol) || url.origin !== new URL(document.baseURI).origin) throw new Error();
+        const src = escapeHtml(url.href), alt = escapeHtml(image[1]);
+        out += `<figure class="diagram"><a href="${src}" target="_blank" rel="noopener noreferrer" aria-label="${alt} · 크게 보기"><img src="${src}" alt="${alt}" loading="lazy" decoding="async"></a><figcaption>${alt} · 눌러서 크게 보기</figcaption></figure>`;
+      } catch { out += '<p>이미지 경로를 확인해 주세요.</p>'; }
+      continue;
+    }
     const item = /^[-*] (.+)$/.exec(line);
     if (item) { if (!list) out += '<ul>'; list = true; out += '<li>' + inline(item[1]) + '</li>'; continue; }
     if (list) { out += '</ul>'; list = false; }
@@ -157,7 +168,7 @@ async function openNode(node) {
   try {
     const response = await fetch(node.content, {cache:'no-cache'}); if (!response.ok) throw new Error();
     const text = await response.text(); if (current !== requestId) return;
-    $('article').innerHTML = markdown(text);
+    $('article').innerHTML = markdown(text, node.content);
     const related = data.edges.filter(e => e.to === node.id).map(e => data.nodes.find(n => n.id === e.from)).filter(Boolean);
     if (related.length) {
       const heading = document.createElement('h2'); heading.textContent = '함께 살펴볼 주제'; $('article').append(heading);
