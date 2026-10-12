@@ -7,7 +7,7 @@
 
 `content/<category>/<subcategory>/`에 Markdown 학습 노트를 작성합니다.
 `roadmaps/<category>.json`에서 노드와 연결 관계를 관리합니다.
-현재 모든 글은 작성용 템플릿이며 참고 사이트 본문을 복제하지 않았습니다.
+Ticketmaster에는 모의 면접을 바탕으로 한 학습 노트를 정리했으며, 나머지 글은 작성용 템플릿입니다. 참고 사이트 본문을 복제하지 않았습니다.
 연결선은 개인 학습 순서의 초안입니다.
 
 ## 무료 콘텐츠 기준
@@ -93,8 +93,8 @@ python3 -m http.server 8000
 ```
 
 http://localhost:8000 에서 확인합니다. 파일을 더블클릭하면 fetch가 동작하지 않습니다.
-Markdown은 제목, 문단, 글머리 목록, 링크, 강조, 인용, 코드 블록을 지원합니다.
-원시 HTML, 표, Mermaid는 현재 지원하지 않습니다.
+Markdown은 제목, 문단, 글머리 목록, 링크, 강조, 인용, 코드 블록, 기본 표를 지원합니다.
+원시 HTML과 Mermaid는 현재 지원하지 않습니다.
 글 작성을 마치면 JSON 노드의 status를 draft에서 published로 바꿉니다.
 
 ## GitHub Pages 배포

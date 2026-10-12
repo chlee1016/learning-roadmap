@@ -5,17 +5,31 @@ let data, category = 'all', selected, requestId = 0;
 let completed;
 try { const stored = JSON.parse(localStorage.getItem(storageKey) || '[]'); completed = new Set(Array.isArray(stored) ? stored : []); } catch { completed = new Set(); }
 const escapeHtml = text => text.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-// Small, safe Markdown subset: headings, lists, links, emphasis, quotes and fenced code.
+// Small, safe Markdown subset: headings, lists, tables, links, emphasis, quotes and fenced code.
 // Raw HTML stays escaped; authors can use Markdown for their learning notes.
 function markdown(source) {
   let code = false, list = false, out = '';
   const inline = text => escapeHtml(text).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-  for (const line of source.replace(/<!--[\s\S]*?-->/g, '').split('\n')) {
+  const lines = source.replace(/<!--[\s\S]*?-->/g, '').split('\n');
+  const cells = line => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim());
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     if (line.startsWith('```')) { if(list){out+='</ul>';list=false;} out += code ? '</code></pre>' : '<pre><code>'; code = !code; continue; }
     if (code) { out += escapeHtml(line) + '\n'; continue; }
     const item = /^[-*] (.+)$/.exec(line);
     if (item) { if (!list) out += '<ul>'; list = true; out += '<li>' + inline(item[1]) + '</li>'; continue; }
     if (list) { out += '</ul>'; list = false; }
+    if (line.includes('|') && lines[i+1]?.includes('|') && cells(lines[i+1]).every(cell => /^:?-{3,}:?$/.test(cell))) {
+      const headers = cells(line);
+      out += '<div class="table-scroll" tabindex="0" role="region" aria-label="학습 내용 표"><table><thead><tr>';
+      out += headers.map(cell => '<th scope="col">' + inline(cell) + '</th>').join('');
+      out += '</tr></thead><tbody>'; i++;
+      while (i+1 < lines.length && lines[i+1].trim().includes('|') && lines[i+1].trim()) {
+        const row = cells(lines[++i]);
+        out += '<tr>' + headers.map((_, index) => '<td>' + inline(row[index] || '') + '</td>').join('') + '</tr>';
+      }
+      out += '</tbody></table></div>'; continue;
+    }
     const heading = /^(#{1,6}) (.+)$/.exec(line);
     if (heading) out += `<h${heading[1].length}>${inline(heading[2])}</h${heading[1].length}>`;
     else if (line.startsWith('> ')) out += '<blockquote>' + inline(line.slice(2)) + '</blockquote>';
