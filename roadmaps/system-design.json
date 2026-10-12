@@ -1,0 +1,499 @@
+{
+  "id": "system-design",
+  "title": "System Design",
+  "description": "나만의 시스템 설계 학습 로드맵",
+  "reference": "https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction",
+  "categories": [
+    {
+      "id": "getting-started",
+      "title": "시작하기",
+      "contentDirectory": "content/system-design/getting-started",
+      "nodeCount": 3
+    },
+    {
+      "id": "core-concepts",
+      "title": "기초 개념",
+      "contentDirectory": "content/system-design/core-concepts",
+      "nodeCount": 7
+    },
+    {
+      "id": "key-technologies",
+      "title": "주요 기술",
+      "contentDirectory": "content/system-design/key-technologies",
+      "nodeCount": 7
+    },
+    {
+      "id": "common-patterns",
+      "title": "설계 패턴",
+      "contentDirectory": "content/system-design/common-patterns",
+      "nodeCount": 1
+    },
+    {
+      "id": "problem-breakdowns",
+      "title": "문제별 설계",
+      "contentDirectory": "content/system-design/problem-breakdowns",
+      "nodeCount": 16
+    },
+    {
+      "id": "advanced-topics",
+      "title": "심화 주제",
+      "contentDirectory": "content/system-design/advanced-topics",
+      "nodeCount": 2
+    },
+    {
+      "id": "in-the-wild",
+      "title": "실제 사례",
+      "contentDirectory": "content/system-design/in-the-wild",
+      "nodeCount": 6
+    }
+  ],
+  "nodes": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "category": "getting-started",
+      "content": "content/system-design/getting-started/introduction.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "how-to-prepare",
+      "title": "How to Prepare",
+      "category": "getting-started",
+      "content": "content/system-design/getting-started/how-to-prepare.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-a-hurry/how-to-prepare",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "delivery",
+      "title": "Delivery Framework",
+      "category": "getting-started",
+      "content": "content/system-design/getting-started/delivery.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-a-hurry/delivery",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "patterns-overview",
+      "title": "Common Patterns",
+      "category": "common-patterns",
+      "content": "content/system-design/common-patterns/patterns-overview.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-a-hurry/patterns",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "networking-essentials",
+      "title": "Networking Essentials",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/networking-essentials.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/networking-essentials",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "api-design",
+      "title": "API Design",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/api-design.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/api-design",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "data-modeling",
+      "title": "Data Modeling",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/data-modeling.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/data-modeling",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "caching",
+      "title": "Caching",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/caching.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/caching",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "sharding",
+      "title": "Sharding",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/sharding.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/sharding",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "consistent-hashing",
+      "title": "Consistent Hashing",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/consistent-hashing.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/consistent-hashing",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "cap-theorem",
+      "title": "CAP Theorem",
+      "category": "core-concepts",
+      "content": "content/system-design/core-concepts/cap-theorem.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/core-concepts/cap-theorem",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "bitly",
+      "title": "Bitly",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/bitly.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/bitly",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "dropbox",
+      "title": "Dropbox",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/dropbox.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/dropbox",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "gopuff",
+      "title": "Local Delivery Service",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/gopuff.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/gopuff",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "ticketmaster",
+      "title": "Ticketmaster",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/ticketmaster.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/ticketmaster",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "fb-news-feed",
+      "title": "FB News Feed",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/fb-news-feed.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/fb-news-feed",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "tinder",
+      "title": "Tinder",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/tinder.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/tinder",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "leetcode",
+      "title": "LeetCode",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/leetcode.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/leetcode",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "whatsapp",
+      "title": "WhatsApp",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/whatsapp.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/whatsapp",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "distributed-rate-limiter",
+      "title": "Rate Limiter",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/distributed-rate-limiter.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/distributed-rate-limiter",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "youtube",
+      "title": "YouTube",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/youtube.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/youtube",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "fb-live-comments",
+      "title": "FB Live Comments",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/fb-live-comments.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/fb-live-comments",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "top-k",
+      "title": "YouTube Top K",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/top-k.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/top-k",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "uber",
+      "title": "Uber",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/uber.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/uber",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "web-crawler",
+      "title": "Web Crawler",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/web-crawler.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/web-crawler",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "ad-click-aggregator",
+      "title": "Ad Click Aggregator",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/ad-click-aggregator.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/ad-click-aggregator",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "fb-post-search",
+      "title": "FB Post Search",
+      "category": "problem-breakdowns",
+      "content": "content/system-design/problem-breakdowns/fb-post-search.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/problem-breakdowns/fb-post-search",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "redis",
+      "title": "Redis",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/redis.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/redis",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "elasticsearch",
+      "title": "Elasticsearch",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/elasticsearch.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "kafka",
+      "title": "Kafka",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/kafka.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/kafka",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "temporal",
+      "title": "Temporal",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/temporal.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/temporal",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "api-gateway",
+      "title": "API Gateway",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/api-gateway.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/api-gateway",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "cassandra",
+      "title": "Cassandra",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/cassandra.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/cassandra",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "dynamodb",
+      "title": "DynamoDB",
+      "category": "key-technologies",
+      "content": "content/system-design/key-technologies/dynamodb.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/dynamodb",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "proximity-search",
+      "title": "Proximity Search",
+      "category": "advanced-topics",
+      "content": "content/system-design/advanced-topics/proximity-search.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/proximity-search",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "time-series-databases",
+      "title": "Time Series Databases",
+      "category": "advanced-topics",
+      "content": "content/system-design/advanced-topics/time-series-databases.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/deep-dives/time-series-databases",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "shopify-inventory-reservations",
+      "title": "Shopify Inventory Reservations",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/shopify-inventory-reservations.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/shopify-inventory-reservations",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "discord-messages-scylladb",
+      "title": "Discord Message Storage",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/discord-messages-scylladb.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/discord-messages-scylladb",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "slack-job-queue",
+      "title": "Slack Job Queue",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/slack-job-queue.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/slack-job-queue",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "figma-multiplayer",
+      "title": "Figma Multiplayer",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/figma-multiplayer.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/figma-multiplayer",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "spotify-data-lake-point-queries",
+      "title": "Spotify Data Lake",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/spotify-data-lake-point-queries.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/spotify-data-lake-point-queries",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    },
+    {
+      "id": "meta-zgateway-zippydb",
+      "title": "Meta ZGateway",
+      "category": "in-the-wild",
+      "content": "content/system-design/in-the-wild/meta-zgateway-zippydb.md",
+      "reference": "https://www.hellointerview.com/learn/system-design/in-the-wild/meta-zgateway-zippydb",
+      "sourceAccess": "free",
+      "accessCheckedAt": "2026-10-12",
+      "status": "draft"
+    }
+  ],
+  "edges": [
+    {
+      "from": "introduction",
+      "to": "how-to-prepare"
+    },
+    {
+      "from": "how-to-prepare",
+      "to": "delivery"
+    },
+    {
+      "from": "networking-essentials",
+      "to": "fb-live-comments"
+    },
+    {
+      "from": "api-design",
+      "to": "fb-live-comments"
+    },
+    {
+      "from": "data-modeling",
+      "to": "fb-live-comments"
+    }
+  ],
+  "selectionPolicy": {
+    "access": "free",
+    "basis": "Public navigation without lock-closed-solid.svg; introduction is publicly readable. Excludes premium article previews; free overview pages may link to paid articles.",
+    "checkedAt": "2026-10-12"
+  }
+}
